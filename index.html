@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b1120" />
   <title>Smart Room V3 — Control Dashboard</title>
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
   <style>
@@ -125,7 +126,6 @@
       50% { opacity: 0.4; }
     }
 
-    /* Notification Banner */
     .notif-banner {
       display: none;
       align-items: center;
@@ -140,30 +140,10 @@
     }
 
     .notif-banner.show { display: flex; }
-
-    .notif-banner.info {
-      background: var(--info-soft);
-      color: var(--info);
-      border-color: rgba(56, 189, 248, 0.35);
-    }
-
-    .notif-banner.success {
-      background: var(--accent-soft);
-      color: var(--accent);
-      border-color: rgba(20, 184, 166, 0.35);
-    }
-
-    .notif-banner.warn {
-      background: var(--amber-soft);
-      color: var(--amber);
-      border-color: rgba(245, 158, 11, 0.35);
-    }
-
-    .notif-banner.error {
-      background: var(--danger-soft);
-      color: var(--danger);
-      border-color: rgba(239, 68, 68, 0.35);
-    }
+    .notif-banner.info { background: var(--info-soft); color: var(--info); border-color: rgba(56, 189, 248, 0.35); }
+    .notif-banner.success { background: var(--accent-soft); color: var(--accent); border-color: rgba(20, 184, 166, 0.35); }
+    .notif-banner.warn { background: var(--amber-soft); color: var(--amber); border-color: rgba(245, 158, 11, 0.35); }
+    .notif-banner.error { background: var(--danger-soft); color: var(--danger); border-color: rgba(239, 68, 68, 0.35); }
 
     .card {
       background: var(--card);
@@ -173,25 +153,10 @@
       margin-bottom: 16px;
     }
 
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 12px;
-    }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 12px; }
 
-    .grid-4 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
-      gap: 12px;
-    }
-
-    label {
-      display: block;
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 5px;
-      font-weight: 600;
-    }
+    label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px; font-weight: 600; }
 
     input {
       width: 100%;
@@ -203,10 +168,7 @@
       font-size: 13px;
     }
 
-    input:focus {
-      outline: none;
-      border-color: var(--accent);
-    }
+    input:focus { outline: none; border-color: var(--accent); }
 
     button {
       font-family: inherit;
@@ -225,24 +187,9 @@
       transition: all 0.15s ease;
     }
 
-    button.primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #042f2e;
-    }
-
-    button.loading {
-      background: var(--amber);
-      border-color: var(--amber);
-      color: #1e1300;
-      cursor: wait;
-    }
-
-    button.danger {
-      color: var(--danger);
-      border-color: rgba(239, 68, 68, 0.4);
-      background: transparent;
-    }
+    button.primary { background: var(--accent); border-color: var(--accent); color: #042f2e; }
+    button.loading { background: var(--amber); border-color: var(--amber); color: #1e1300; cursor: wait; }
+    button.danger { color: var(--danger); border-color: rgba(239, 68, 68, 0.4); background: transparent; }
 
     .spinner {
       width: 14px;
@@ -254,28 +201,12 @@
       display: none;
     }
 
-    button.loading .spinner {
-      display: inline-block;
-    }
+    button.loading .spinner { display: inline-block; }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-    .stat {
-      background: var(--card-sub);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px;
-    }
-
-    .stat small {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      margin-bottom: 6px;
-    }
-
+    .stat { background: var(--card-sub); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+    .stat small { display: block; color: var(--muted); font-size: 12px; margin-bottom: 6px; }
     .stat strong { font-size: 18px; }
 
     .tag {
@@ -291,12 +222,7 @@
     .tag.active { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
     .tag.night { background: var(--amber-soft); color: var(--amber); border-color: transparent; }
 
-    /* Unified Switch Cards Grid */
-    .switch-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
+    .switch-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 
     .sw-card {
       background: var(--card-sub);
@@ -310,124 +236,31 @@
       transition: border-color 0.2s, background 0.2s;
     }
 
-    .sw-card.on {
-      border-color: var(--accent);
-      background: linear-gradient(135deg, var(--card-sub) 60%, var(--accent-soft));
-    }
+    .sw-card.on { border-color: var(--accent); background: linear-gradient(135deg, var(--card-sub) 60%, var(--accent-soft)); }
+    .sw-info { flex: 1; min-width: 0; }
+    .sw-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .sw-name-input { padding: 6px 9px; font-size: 14px; font-weight: 700; margin-bottom: 5px; background: var(--card); }
+    .sw-sub { font-size: 12px; color: var(--muted); }
 
-    .sw-info {
-      flex: 1;
-      min-width: 0;
-    }
+    .toggle-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; }
+    .switch { position: relative; display: inline-block; width: 60px; height: 32px; }
+    .switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .slider { position: absolute; cursor: pointer; inset: 0; background-color: var(--track-off); border-radius: 999px; transition: background-color 0.22s ease; }
+    .slider::before { position: absolute; content: ""; height: 24px; width: 24px; left: 4px; bottom: 4px; background-color: var(--knob); border-radius: 50%; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.28); transition: transform 0.22s ease; }
+    .switch input:checked + .slider { background-color: var(--accent); }
+    .switch input:checked + .slider::before { transform: translateX(28px); }
 
-    .sw-title {
-      font-size: 15px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
+    .sw-state-label { font-size: 11px; font-weight: 800; letter-spacing: 0.6px; color: var(--muted); }
+    .sw-card.on .sw-state-label { color: var(--accent); }
 
-    .sw-name-input {
-      padding: 6px 9px;
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 5px;
-      background: var(--card);
-    }
+    .duration-bar { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px; }
+    .row-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
-    .sw-sub {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    /* Real Physical Toggle Switch (Left = OFF, Right = ON) */
-    .toggle-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-      flex-shrink: 0;
-    }
-
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 60px;
-      height: 32px;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-      position: absolute;
-    }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      inset: 0;
-      background-color: var(--track-off);
-      border-radius: 999px;
-      transition: background-color 0.22s ease;
-    }
-
-    .slider::before {
-      position: absolute;
-      content: "";
-      height: 24px;
-      width: 24px;
-      left: 4px;
-      bottom: 4px;
-      background-color: var(--knob);
-      border-radius: 50%;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.28);
-      transition: transform 0.22s ease;
-    }
-
-    .switch input:checked + .slider {
-      background-color: var(--accent);
-    }
-
-    .switch input:checked + .slider::before {
-      transform: translateX(28px);
-    }
-
-    .sw-state-label {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.6px;
-      color: var(--muted);
-    }
-
-    .sw-card.on .sw-state-label {
-      color: var(--accent);
-    }
-
-    .duration-bar {
-      margin-top: 16px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-end;
-      gap: 12px;
-    }
-
-    .row-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    @media (max-width: 680px) {
-      .switch-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 680px) { .switch-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
   <main>
-    <!-- Header -->
     <div class="top">
       <div>
         <div class="eyebrow">SMART ROOM V3 • EGYPT TIME</div>
@@ -443,27 +276,25 @@
       </div>
     </div>
 
-    <!-- Notification Banner -->
     <div id="notifBanner" class="notif-banner">
       <span id="notifText"></span>
       <button type="button" class="danger" onclick="clearNotif()">Dismiss</button>
     </div>
 
-    <!-- 1. MQTT Connection -->
     <section class="card">
-      <form onsubmit="event.preventDefault(); handleConnectClick();">
+      <form id="mqttForm" onsubmit="event.preventDefault(); handleConnectClick();">
         <div class="grid-3">
           <div>
             <label for="brokerUrl">Broker WSS URL</label>
-            <input id="brokerUrl" value="wss://f1101121.ala.eu-central-1.emqxsl.com:8084/mqtt" />
+            <input id="brokerUrl" name="url" value="wss://f1101121.ala.eu-central-1.emqxsl.com:8084/mqtt" />
           </div>
           <div>
             <label for="mqttUser">Username</label>
-            <input id="mqttUser" autocomplete="username" placeholder="Enter MQTT username" value="" />
+            <input id="mqttUser" name="username" autocomplete="username" placeholder="Enter MQTT username" value="" oninput="saveUsernamePref()" />
           </div>
           <div>
             <label for="mqttPass">Password</label>
-            <input id="mqttPass" type="password" autocomplete="current-password" placeholder="Enter MQTT password" value="" />
+            <input id="mqttPass" name="password" type="password" autocomplete="current-password" placeholder="Enter MQTT password" value="" />
           </div>
         </div>
         <div class="row-actions" style="margin-top: 12px; justify-content: space-between;">
@@ -479,7 +310,6 @@
       </form>
     </section>
 
-    <!-- 2. Sensors -->
     <section class="card">
       <h2>Sensors & Live Room State</h2>
       <div class="grid-4">
@@ -499,12 +329,10 @@
       </div>
     </section>
 
-    <!-- 3. Unified Switches Panel -->
     <section class="card">
       <h2>Control Switches & PIR Timer</h2>
 
       <div class="switch-grid">
-        <!-- Relay 1 -->
         <div id="cardR0" class="sw-card">
           <div class="sw-info">
             <input id="rName0" class="sw-name-input" type="text" value="LIGHT_1" oninput="saveNames()" />
@@ -519,7 +347,6 @@
           </div>
         </div>
 
-        <!-- Relay 2 -->
         <div id="cardR1" class="sw-card">
           <div class="sw-info">
             <input id="rName1" class="sw-name-input" type="text" value="LIGHT_2" oninput="saveNames()" />
@@ -534,7 +361,6 @@
           </div>
         </div>
 
-        <!-- Relay 3 -->
         <div id="cardR2" class="sw-card">
           <div class="sw-info">
             <input id="rName2" class="sw-name-input" type="text" value="NIGHT_LIGHT" oninput="saveNames()" />
@@ -549,7 +375,6 @@
           </div>
         </div>
 
-        <!-- Relay 4 -->
         <div id="cardR3" class="sw-card">
           <div class="sw-info">
             <input id="rName3" class="sw-name-input" type="text" value="FAN" oninput="saveNames()" />
@@ -564,7 +389,6 @@
           </div>
         </div>
 
-        <!-- All Lights Switch -->
         <div id="cardAll" class="sw-card">
           <div class="sw-info">
             <div class="sw-title">All Lights (1 – 3)</div>
@@ -579,7 +403,6 @@
           </div>
         </div>
 
-        <!-- Sequence Switch -->
         <div id="cardSeq" class="sw-card">
           <div class="sw-info">
             <div class="sw-title">Light Sequence</div>
@@ -594,7 +417,6 @@
           </div>
         </div>
 
-        <!-- Master Automation Switch -->
         <div id="cardAuto" class="sw-card on">
           <div class="sw-info">
             <div class="sw-title">PIR Automation</div>
@@ -609,7 +431,6 @@
           </div>
         </div>
 
-        <!-- Night Light Auto Switch -->
         <div id="cardNL" class="sw-card on">
           <div class="sw-info">
             <div class="sw-title">Night Light Auto</div>
@@ -625,18 +446,16 @@
         </div>
       </div>
 
-      <!-- PIR Auto-Off Duration -->
       <div class="duration-bar">
         <div style="flex: 1; min-width: 200px; max-width: 280px;">
           <label for="pirDurSec">PIR Auto-Off Duration (Seconds)</label>
-          <input id="pirDurSec" type="number" min="5" max="3600" value="60" oninput="markDurEditing()" />
+          <input id="pirDurSec" type="number" min="5" max="3600" value="60" oninput="markDurEditing(); saveSettingsPref();" />
         </div>
         <button type="button" class="primary" onclick="saveDuration()">Apply PIR Duration</button>
         <span id="durSavedHint" style="font-size: 12px; color: var(--muted);">Current: 60s</span>
       </div>
     </section>
 
-    <!-- 4. Night Schedule -->
     <section class="card">
       <h2>Night Schedule (Egypt Time)</h2>
       <p class="subtitle" style="margin-bottom: 12px;">
@@ -645,11 +464,11 @@
       <div class="grid-3" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
         <div>
           <label for="nStart">Night Start Hour (0 – 23)</label>
-          <input id="nStart" type="number" min="0" max="23" value="0" />
+          <input id="nStart" type="number" min="0" max="23" value="0" oninput="saveSettingsPref()" />
         </div>
         <div>
           <label for="nEnd">Night End Hour (0 – 23)</label>
-          <input id="nEnd" type="number" min="0" max="23" value="9" />
+          <input id="nEnd" type="number" min="0" max="23" value="9" oninput="saveSettingsPref()" />
         </div>
       </div>
       <div class="row-actions" style="margin-top: 12px;">
@@ -661,9 +480,11 @@
   <script>
     const NAME_STORAGE_KEY = "smartroom_v3_relay_names";
     const THEME_STORAGE_KEY = "smartroom_v3_theme";
+    const USER_STORAGE_KEY = "smartroom_v3_mqtt_user";
+    const TOGGLES_STORAGE_KEY = "smartroom_v3_toggles_state";
+    const SETTINGS_STORAGE_KEY = "smartroom_v3_settings_state";
 
     let client = null;
-    // "disconnected" | "connecting" | "connected"
     let connStatus = "disconnected";
     let manualDisconnect = false;
     let connectTimeoutId = null;
@@ -700,9 +521,7 @@
     function applyTheme(theme) {
       document.documentElement.setAttribute("data-theme", theme);
       document.getElementById("themeBtn").textContent = theme === "dark" ? "Light Mode" : "Dark Mode";
-      try {
-        localStorage.setItem(THEME_STORAGE_KEY, theme);
-      } catch (_) {}
+      try { localStorage.setItem(THEME_STORAGE_KEY, theme); } catch (_) {}
     }
 
     function toggleTheme() {
@@ -710,23 +529,87 @@
       applyTheme(cur === "dark" ? "light" : "dark");
     }
 
-    function loadSavedPrefs() {
-      let savedTheme = "dark";
+    function saveUsernamePref() {
       try {
-        savedTheme = localStorage.getItem(THEME_STORAGE_KEY) || "dark";
+        localStorage.setItem(USER_STORAGE_KEY, document.getElementById("mqttUser").value.trim());
       } catch (_) {}
-      applyTheme(savedTheme === "light" ? "light" : "dark");
+    }
+
+    function saveTogglesPref() {
+      try {
+        const payload = {
+          auto: Boolean(state.auto),
+          nightLight: Boolean(state.nightLight),
+          seqRunning: Boolean(seqRunning),
+          relays: state.relays.map(Boolean)
+        };
+        localStorage.setItem(TOGGLES_STORAGE_KEY, JSON.stringify(payload));
+      } catch (_) {}
+    }
+
+    function saveSettingsPref() {
+      try {
+        const durVal = parseInt(document.getElementById("pirDurSec").value, 10);
+        const startVal = parseInt(document.getElementById("nStart").value, 10);
+        const endVal = parseInt(document.getElementById("nEnd").value, 10);
+        localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify({
+          autoOffSec: isNaN(durVal) ? 60 : durVal,
+          nightStart: isNaN(startVal) ? 0 : startVal,
+          nightEnd: isNaN(endVal) ? 9 : endVal
+        }));
+      } catch (_) {}
+    }
+
+    function loadSavedPrefs() {
+      try {
+        const savedTheme = localStorage.getItem(THEME_STORAGE_KEY) || "dark";
+        applyTheme(savedTheme === "light" ? "light" : "dark");
+      } catch (_) {
+        applyTheme("dark");
+      }
 
       try {
-        const raw = localStorage.getItem(NAME_STORAGE_KEY);
-        if (!raw) return;
-        const saved = JSON.parse(raw);
-        if (Array.isArray(saved) && saved.length === 4) {
-          for (let i = 0; i < 4; i++) {
-            if (typeof saved[i] === "string" && saved[i].trim() !== "") {
-              document.getElementById(`rName${i}`).value = saved[i].trim();
+        const savedUser = localStorage.getItem(USER_STORAGE_KEY);
+        if (savedUser) document.getElementById("mqttUser").value = savedUser;
+      } catch (_) {}
+
+      try {
+        const rawNames = localStorage.getItem(NAME_STORAGE_KEY);
+        if (rawNames) {
+          const saved = JSON.parse(rawNames);
+          if (Array.isArray(saved) && saved.length === 4) {
+            for (let i = 0; i < 4; i++) {
+              if (typeof saved[i] === "string" && saved[i].trim() !== "") {
+                document.getElementById(`rName${i}`).value = saved[i].trim();
+              }
             }
           }
+        }
+      } catch (_) {}
+
+      try {
+        const rawToggles = localStorage.getItem(TOGGLES_STORAGE_KEY);
+        if (rawToggles) {
+          const t = JSON.parse(rawToggles);
+          if (typeof t.auto === "boolean") state.auto = t.auto;
+          if (typeof t.nightLight === "boolean") state.nightLight = t.nightLight;
+          if (typeof t.seqRunning === "boolean") seqRunning = t.seqRunning;
+          if (Array.isArray(t.relays) && t.relays.length === 4) {
+            state.relays = t.relays.map(Boolean);
+          }
+        }
+      } catch (_) {}
+
+      try {
+        const rawSettings = localStorage.getItem(SETTINGS_STORAGE_KEY);
+        if (rawSettings) {
+          const s = JSON.parse(rawSettings);
+          if (typeof s.autoOffSec === "number") {
+            document.getElementById("pirDurSec").value = s.autoOffSec;
+            document.getElementById("durSavedHint").textContent = `Saved: ${s.autoOffSec}s`;
+          }
+          if (typeof s.nightStart === "number") document.getElementById("nStart").value = s.nightStart;
+          if (typeof s.nightEnd === "number") document.getElementById("nEnd").value = s.nightEnd;
         }
       } catch (_) {}
     }
@@ -737,9 +620,7 @@
         const el = document.getElementById(`rName${i}`);
         arr.push(el ? el.value : `RELAY_${i + 1}`);
       }
-      try {
-        localStorage.setItem(NAME_STORAGE_KEY, JSON.stringify(arr));
-      } catch (_) {}
+      try { localStorage.setItem(NAME_STORAGE_KEY, JSON.stringify(arr)); } catch (_) {}
     }
 
     function notify(msg, type = "info") {
@@ -786,9 +667,7 @@
       }
       if (client) {
         client.removeAllListeners();
-        try {
-          client.end(true);
-        } catch (_) {}
+        try { client.end(true); } catch (_) {}
         client = null;
       }
     }
@@ -810,10 +689,9 @@
       const url = document.getElementById("brokerUrl").value.trim();
       const username = document.getElementById("mqttUser").value.trim();
       const password = document.getElementById("mqttPass").value;
-      if (!url) {
-        return notify("Broker WSS URL is required.", "error");
-      }
+      if (!url) return notify("Broker WSS URL is required.", "error");
 
+      saveUsernamePref();
       manualDisconnect = false;
       cleanupClient();
       setConnStatus("connecting");
@@ -899,9 +777,7 @@
       }
     }
 
-    function markDurEditing() {
-      durDirty = true;
-    }
+    function markDurEditing() { durDirty = true; }
 
     function setSwitchUI(cardId, chkId, lblId, isOn) {
       document.getElementById(cardId).classList.toggle("on", isOn);
@@ -924,14 +800,18 @@
             durInput.value = d.autoOffSec;
           }
         }
+        saveTogglesPref();
+        saveSettingsPref();
         renderModes();
       } else if (topic === TOPICS.schedState) {
         const sIn = document.getElementById("nStart");
         const eIn = document.getElementById("nEnd");
         if (typeof d.start === "number" && document.activeElement !== sIn) sIn.value = d.start;
         if (typeof d.end === "number" && document.activeElement !== eIn) eIn.value = d.end;
+        saveSettingsPref();
       } else if (topic === TOPICS.relayState && Array.isArray(d.relays)) {
         d.relays.slice(0, 4).forEach((v, i) => { state.relays[i] = Boolean(v); });
+        saveTogglesPref();
         renderRelays();
       } else if (topic === TOPICS.sensors) {
         if (d.temp !== undefined && d.temp !== null && !isNaN(Number(d.temp))) {
@@ -951,6 +831,7 @@
           const isSeq = String(d.lightState).includes("SEQUENCE");
           seqRunning = isSeq;
           setSwitchUI("cardSeq", "chkSeq", "lblSeq", isSeq);
+          saveTogglesPref();
         }
       } else if (topic === TOPICS.sysStatus && d.status) {
         const badge = document.getElementById("sysBadge");
@@ -965,6 +846,7 @@
     function renderModes() {
       setSwitchUI("cardAuto", "chkAuto", "lblAuto", state.auto);
       setSwitchUI("cardNL", "chkNL", "lblNL", state.nightLight);
+      setSwitchUI("cardSeq", "chkSeq", "lblSeq", seqRunning);
 
       const dayTag = document.getElementById("dayTag");
       dayTag.textContent = `Day (09:00-00:00): ${state.day ? "ACTIVE" : "IDLE"}`;
@@ -988,6 +870,7 @@
         seqRunning = false;
         setSwitchUI("cardSeq", "chkSeq", "lblSeq", false);
         state.relays[idx] = checked;
+        saveTogglesPref();
         renderRelays();
       } else {
         setSwitchUI(`cardR${idx}`, `chkR${idx}`, `lblR${idx}`, state.relays[idx]);
@@ -1001,6 +884,7 @@
         state.relays[0] = checked;
         state.relays[1] = checked;
         state.relays[2] = checked;
+        saveTogglesPref();
         renderRelays();
       } else {
         renderRelays();
@@ -1011,6 +895,7 @@
       if (pub(TOPICS.lightsSeq, checked ? "START" : "STOP")) {
         seqRunning = checked;
         setSwitchUI("cardSeq", "chkSeq", "lblSeq", checked);
+        saveTogglesPref();
       } else {
         setSwitchUI("cardSeq", "chkSeq", "lblSeq", seqRunning);
       }
@@ -1019,6 +904,7 @@
     function onAutoSwitch(checked) {
       if (pub(TOPICS.autoSet, checked ? "ON" : "OFF")) {
         state.auto = checked;
+        saveTogglesPref();
         renderModes();
       } else {
         setSwitchUI("cardAuto", "chkAuto", "lblAuto", state.auto);
@@ -1028,6 +914,7 @@
     function onNightLightSwitch(checked) {
       if (pub(TOPICS.nlSet, checked ? "ON" : "OFF")) {
         state.nightLight = checked;
+        saveTogglesPref();
         renderModes();
       } else {
         setSwitchUI("cardNL", "chkNL", "lblNL", state.nightLight);
@@ -1039,6 +926,7 @@
       if (isNaN(sec) || sec < 5 || sec > 3600) {
         return notify("PIR duration must be between 5 and 3600 seconds.", "error");
       }
+      saveSettingsPref();
       if (pub(TOPICS.durSet, String(sec))) {
         durDirty = false;
         durLockUntil = Date.now() + 5000;
@@ -1053,6 +941,7 @@
       if (isNaN(start) || isNaN(end) || start < 0 || start > 23 || end < 0 || end > 23) {
         return notify("Hours must be between 0 and 23.", "error");
       }
+      saveSettingsPref();
       if (pub(TOPICS.schedSet, JSON.stringify({ start, end }))) {
         notify(`Night schedule saved (${start}:00 to ${end}:00).`, "success");
       }
