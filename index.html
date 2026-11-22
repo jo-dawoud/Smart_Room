@@ -286,15 +286,15 @@
         <div class="grid-3">
           <div>
             <label for="brokerUrl">Broker WSS URL</label>
-            <input id="brokerUrl" name="url" value="wss://f1101121.ala.eu-central-1.emqxsl.com:8084/mqtt" />
+            <input id="brokerUrl" name="url" value="wss://f1101121.ala.eu-central-1.emqxsl.com:8084/mqtt" oninput="saveLoginPref()" />
           </div>
           <div>
             <label for="mqttUser">Username</label>
-            <input id="mqttUser" name="username" autocomplete="username" placeholder="Enter MQTT username" value="" oninput="saveUsernamePref()" />
+            <input id="mqttUser" name="username" autocomplete="username" placeholder="Enter MQTT username" value="" oninput="saveLoginPref()" />
           </div>
           <div>
             <label for="mqttPass">Password</label>
-            <input id="mqttPass" name="password" type="password" autocomplete="current-password" placeholder="Enter MQTT password" value="" />
+            <input id="mqttPass" name="password" type="password" autocomplete="current-password" placeholder="Enter MQTT password" value="" oninput="saveLoginPref()" />
           </div>
         </div>
         <div class="row-actions" style="margin-top: 12px; justify-content: space-between;">
@@ -304,6 +304,7 @@
               <span id="connectBtnLabel">Connect</span>
             </button>
             <button type="button" onclick="syncState()">Sync</button>
+            <button type="button" class="danger" onclick="clearLoginPref()">Clear Login</button>
           </div>
           <span id="sysBadge" class="tag">ESP32: --</span>
         </div>
@@ -480,7 +481,7 @@
   <script>
     const NAME_STORAGE_KEY = "smartroom_v3_relay_names";
     const THEME_STORAGE_KEY = "smartroom_v3_theme";
-    const USER_STORAGE_KEY = "smartroom_v3_mqtt_user";
+    const LOGIN_STORAGE_KEY = "smartroom_v3_mqtt_login";
     const TOGGLES_STORAGE_KEY = "smartroom_v3_toggles_state";
     const SETTINGS_STORAGE_KEY = "smartroom_v3_settings_state";
 
@@ -529,10 +530,20 @@
       applyTheme(cur === "dark" ? "light" : "dark");
     }
 
-    function saveUsernamePref() {
+    function saveLoginPref() {
       try {
-        localStorage.setItem(USER_STORAGE_KEY, document.getElementById("mqttUser").value.trim());
+        const url = document.getElementById("brokerUrl").value.trim();
+        const username = document.getElementById("mqttUser").value;
+        const password = document.getElementById("mqttPass").value;
+        localStorage.setItem(LOGIN_STORAGE_KEY, JSON.stringify({ url, username, password }));
       } catch (_) {}
+    }
+
+    function clearLoginPref() {
+      try { localStorage.removeItem(LOGIN_STORAGE_KEY); } catch (_) {}
+      document.getElementById("mqttUser").value = "";
+      document.getElementById("mqttPass").value = "";
+      notify("Saved login cleared from this browser.", "warn");
     }
 
     function saveTogglesPref() {
@@ -569,8 +580,13 @@
       }
 
       try {
-        const savedUser = localStorage.getItem(USER_STORAGE_KEY);
-        if (savedUser) document.getElementById("mqttUser").value = savedUser;
+        const rawLogin = localStorage.getItem(LOGIN_STORAGE_KEY);
+        if (rawLogin) {
+          const l = JSON.parse(rawLogin);
+          if (typeof l.url === "string" && l.url.trim()) document.getElementById("brokerUrl").value = l.url.trim();
+          if (typeof l.username === "string") document.getElementById("mqttUser").value = l.username;
+          if (typeof l.password === "string") document.getElementById("mqttPass").value = l.password;
+        }
       } catch (_) {}
 
       try {
@@ -691,7 +707,7 @@
       const password = document.getElementById("mqttPass").value;
       if (!url) return notify("Broker WSS URL is required.", "error");
 
-      saveUsernamePref();
+      saveLoginPref();
       manualDisconnect = false;
       cleanupClient();
       setConnStatus("connecting");
